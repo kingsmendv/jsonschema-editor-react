@@ -8,6 +8,7 @@ import { State, useState } from "@hookstate/core";
 
 export interface AdvancedSettingsProps {
 	itemStateProp: State<JSONSchema7>;
+	isRetroactiveValueRequired?: boolean;
 }
 
 export const AdvancedSettings: React.FunctionComponent<AdvancedSettingsProps> = (
@@ -20,10 +21,20 @@ export const AdvancedSettings: React.FunctionComponent<AdvancedSettingsProps> = 
 	): JSX.Element | undefined => {
 		switch (itemState.type.value) {
 			case "string":
-				return <AdvancedString itemStateProp={item} />;
+				return (
+					<AdvancedString
+						itemStateProp={item}
+						isRetroactiveValueRequired={props.isRetroactiveValueRequired}
+					/>
+				);
 			case "number":
 			case "integer":
-				return <AdvancedNumber itemStateProp={item} />;
+				return (
+					<AdvancedNumber
+						itemStateProp={item}
+						isRetroactiveValueRequired={props.isRetroactiveValueRequired}
+					/>
+				);
 			case "boolean":
 				return <AdvancedBoolean itemStateProp={item} />;
 			default:

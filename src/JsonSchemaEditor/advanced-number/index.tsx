@@ -40,8 +40,38 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 		: [];
 	const enumValue = enumData?.join("\n");
 
+	const defaultVal = (itemState.default.value || "") as string;
+	const defaultMinVal = (itemState.minimum.value || "") as string;
+	const defaultMaxVal = (itemState.maximum.value || "") as string;
+
 	return (
 		<Flex direction="column" wrap="nowrap">
+			{/* {props.isRetroactiveValueRequired && (
+				<Stack
+					isInline
+					alignItems="center"
+					justifyContent="center"
+					alignContent="center"
+					m={1}
+				>
+					<FormLabel mr={2}>Retroactive Value: </FormLabel>
+					<NumberInput
+						size="sm"
+						id="retroactiveValue"
+						placeholder="Value"
+						onChange={(value: number | string) => {
+							// itemState.default.set(evt.target.value);
+						}}
+					>
+						<NumberInputField value={defaultVal} />
+						<NumberInputStepper>
+							<NumberIncrementStepper />
+							<NumberDecrementStepper />
+						</NumberInputStepper>
+					</NumberInput>
+				</Stack>
+			)} */}
+
 			<Stack
 				isInline
 				alignItems="center"
@@ -53,13 +83,13 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 
 				<NumberInput
 					size="sm"
-					defaultValue={Number(itemState.default.value)}
+					defaultValue={defaultVal}
 					placeholder="Default value"
 					onChange={(value: number | string) => {
 						itemState.default.set(Number(value));
 					}}
 				>
-					<NumberInputField value={Number(itemState.default.value)} />
+					<NumberInputField value={defaultVal} />
 					<NumberInputStepper>
 						<NumberIncrementStepper />
 						<NumberDecrementStepper />
@@ -77,12 +107,12 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 				<FormLabel mr={2}>Min Value: </FormLabel>
 				<NumberInput
 					size="sm"
-					defaultValue={Number(itemState.minimum.value)}
+					defaultValue={defaultMinVal}
 					onChange={(value: number | string) => {
 						itemState.minimum.set(Number(value));
 					}}
 				>
-					<NumberInputField value={Number(itemState.minimum.value)} />
+					<NumberInputField value={defaultMinVal} />
 					<NumberInputStepper>
 						<NumberIncrementStepper />
 						<NumberDecrementStepper />
@@ -91,12 +121,12 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 				<FormLabel mr={2}>Max Value: </FormLabel>
 				<NumberInput
 					size="sm"
-					defaultValue={Number(itemState.maximum.value)}
+					defaultValue={defaultMaxVal}
 					onChange={(value: number | string) => {
 						itemState.maximum.set(Number(value));
 					}}
 				>
-					<NumberInputField value={Number(itemState.maximum.value)} />
+					<NumberInputField value={defaultMaxVal} />
 					<NumberInputStepper>
 						<NumberIncrementStepper />
 						<NumberDecrementStepper />

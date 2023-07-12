@@ -44,6 +44,26 @@ export const AdvancedString: React.FunctionComponent<AdvancedItemStateProps> = (
 
 	return (
 		<Flex direction="column" wrap="nowrap">
+			{/* {props.isRetroactiveValueRequired && (
+				<Stack
+					isInline
+					alignItems="center"
+					justifyContent="center"
+					alignContent="center"
+					m={1}
+				>
+					<FormLabel mr={2}>Retroactive Value: </FormLabel>
+					<Input
+						id="retroactiveValue"
+						placeholder="Value"
+						value=""
+						onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+							// itemState.default.set(evt.target.value);
+						}}
+					/>
+				</Stack>
+			)} */}
+
 			<Stack
 				isInline
 				alignItems="center"
@@ -72,7 +92,11 @@ export const AdvancedString: React.FunctionComponent<AdvancedItemStateProps> = (
 				<FormLabel mr={2}>Min Length: </FormLabel>
 				<NumberInput
 					size="sm"
-					defaultValue={Number(itemState.minLength.value)}
+					defaultValue={
+						itemState.minLength.value === undefined
+							? undefined
+							: Number(itemState.minLength.value)
+					}
 					onChange={(value: number | string) => {
 						itemState.minLength.set(Number(value));
 					}}
@@ -86,7 +110,11 @@ export const AdvancedString: React.FunctionComponent<AdvancedItemStateProps> = (
 				<FormLabel mr={2}>Max Length: </FormLabel>
 				<NumberInput
 					size="sm"
-					defaultValue={Number(itemState.maxLength.value)}
+					defaultValue={
+						itemState.maxLength.value === undefined
+							? undefined
+							: Number(itemState.maxLength.value)
+					}
 					onChange={(value: number | string) => {
 						itemState.maxLength.set(Number(value));
 					}}

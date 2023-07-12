@@ -38,6 +38,7 @@ export interface SchemaItemProps extends FlexProps {
 	name: string;
 	isReadOnly: State<boolean>;
 	showadvanced: (item: string) => void;
+	initialSchema?: JSONSchema7;
 }
 
 export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
@@ -80,6 +81,9 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 		: false;
 	const toast = useToast();
 
+	const isEditing = !!props.initialSchema;
+	const requriesRetroactiveVal = isEditing && isRequired;
+
 	// Debounce callback
 	const debounced = useDebouncedCallback(
 		// function
@@ -102,6 +106,15 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					{ [oldName]: proptoupdate },
 					parentState.properties.value
 				);
+
+				// If the field was required, be sure to update the field name in the required array
+				const wasRequired = required.includes(oldName);
+				if (wasRequired) {
+					const updatedRequired = required.filter((field) => field !== oldName);
+					updatedRequired.push(newValue);
+					parentStateOrNull.required.set(updatedRequired);
+				}
+
 				parentStateOrNull.properties.set(JSON.parse(JSON.stringify(newobj)));
 			}
 		},
