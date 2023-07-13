@@ -58,7 +58,7 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 				<Select
 					variant="outline"
 					isDisabled={true} // VQS force always object
-					value={state.type.value ?? ""}
+					value={state.type.value ?? "object"}
 					size="sm"
 					margin={2}
 					placeholder="Choose root data type"
