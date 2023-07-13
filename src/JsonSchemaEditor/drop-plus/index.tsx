@@ -49,6 +49,7 @@ export const DropPlus: React.FunctionComponent<DropPlusProps> = (
 
 	return (
 		<Popover trigger="hover">
+			{/* @ts-ignore */}
 			<PopoverTrigger>
 				<IconButton
 					isRound

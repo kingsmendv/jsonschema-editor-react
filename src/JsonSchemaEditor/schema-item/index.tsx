@@ -168,9 +168,11 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 							(!props.initialSchema?.required ||
 								!props.initialSchema.required.includes(name)) &&
 							!(
-								(parentState.properties[name] as JSONSchema7).type ===
+								parentState?.properties &&
+								((parentState.properties.get()![name] as JSONSchema7).type ===
 									"object" ||
-								(parentState.properties[name] as JSONSchema7).type === "array"
+									(parentState.properties.get()![name] as JSONSchema7).type ===
+										"array")
 							);
 						setRequiresRetroactiveVal(requiresRetroactiveVal);
 
