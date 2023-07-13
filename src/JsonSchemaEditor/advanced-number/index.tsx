@@ -155,7 +155,7 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 					value={enumValue}
 					isDisabled={!isEnumChecked}
 					placeholder="ENUM Values - One Entry Per Line"
-					type={"number"}
+					// type={"number"}
 					onChange={(evt: React.ChangeEvent<HTMLTextAreaElement>) => {
 						const re = /^[0-9\n]+$/;
 						if (evt.target.value === "" || re.test(evt.target.value)) {

@@ -30,12 +30,18 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 				data-testid="jsonschema-editor"
 				direction="row"
 				wrap="nowrap"
-				size="sm"
+				// size="sm"
 				mt={2}
 				mr={5}
 			>
-				<Input isDisabled placeholder="root" margin={2} variant="outline" />
-				<Tooltip
+				<Input
+					isDisabled
+					placeholder="root"
+					margin={2}
+					variant="outline"
+					size="sm"
+				/>
+				{/* <Tooltip
 					hasArrow
 					aria-label="All Required"
 					label="All Required"
@@ -47,11 +53,11 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 						width={20}
 						colorScheme="blue"
 					/>
-				</Tooltip>
+				</Tooltip> */}
 
 				<Select
 					variant="outline"
-					isDisabled={isReadOnlyState.value}
+					isDisabled={true} // VQS force always object
 					value={state.type.value ?? ""}
 					size="sm"
 					margin={2}
@@ -116,9 +122,11 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 								aria-label="Add Child Node"
 								onClick={() => {
 									const fieldName = `field_${random()}`;
-									(state.properties as State<{
-										[key: string]: JSONSchema7;
-									}>)[fieldName].set(getDefaultSchema(DataType.string));
+									(
+										state.properties as State<{
+											[key: string]: JSONSchema7;
+										}>
+									)[fieldName].set(getDefaultSchema(DataType.string));
 								}}
 							/>
 						</Tooltip>

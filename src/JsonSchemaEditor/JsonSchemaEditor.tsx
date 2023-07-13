@@ -46,7 +46,9 @@ export const JsonSchemaEditor = (props: SchemaEditorProps) => {
 							<SchemaObject
 								schemaState={jsonSchemaState}
 								isReadOnly={schemaState.isReadOnly ?? false}
-								initialSchema={data}
+								initialSchema={
+									data ? JSON.parse(JSON.stringify(data)) : undefined
+								}
 							/>
 						)}
 
@@ -54,6 +56,9 @@ export const JsonSchemaEditor = (props: SchemaEditorProps) => {
 							<SchemaArray
 								schemaState={jsonSchemaState}
 								isReadOnly={schemaState.isReadOnly ?? false}
+								initialSchema={
+									data ? JSON.parse(JSON.stringify(data)) : undefined
+								}
 							/>
 						)}
 					</Flex>

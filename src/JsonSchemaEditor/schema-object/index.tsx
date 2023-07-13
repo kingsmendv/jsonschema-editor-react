@@ -76,12 +76,13 @@ export const SchemaObject: React.FunctionComponent<SchemaObjectProps> = (
 							showadvanced={showadvanced}
 							required={schema.required.value as string[]}
 							isReadOnly={isReadOnlyState}
-							initialSchema={
-								props.initialSchema?.properties &&
-								props.initialSchema?.properties[name]
-									? (props.initialSchema?.properties[name] as JSONSchema7)
-									: undefined
-							}
+							// initialSchema={
+							// 	props.initialSchema?.properties &&
+							// 	props.initialSchema?.properties[name]
+							// 		? (props.initialSchema?.properties[name] as JSONSchema7)
+							// 		: undefined
+							// }
+							initialSchema={props.initialSchema}
 						/>
 					);
 				})}

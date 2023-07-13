@@ -32,6 +32,7 @@ import { AdvancedSettings } from "../schema-advanced";
 export interface SchemaArrayProps extends FlexProps {
 	schemaState: State<JSONSchema7>;
 	isReadOnly: State<boolean>;
+	initialSchema?: JSONSchema7;
 }
 export const SchemaArray: React.FunctionComponent<SchemaArrayProps> = (
 	props: React.PropsWithChildren<SchemaArrayProps>
@@ -170,19 +171,37 @@ export const SchemaArray: React.FunctionComponent<SchemaArrayProps> = (
 							aria-label="Add Child Node"
 							onClick={() => {
 								const fieldName = `field_${random()}`;
-								(state.properties as State<{
-									[key: string]: JSONSchema7;
-								}>)[fieldName].set(getDefaultSchema(DataType.string));
+								(
+									state.properties as State<{
+										[key: string]: JSONSchema7;
+									}>
+								)[fieldName].set(getDefaultSchema(DataType.string));
 							}}
 						/>
 					</Tooltip>
 				)}
 			</Flex>
 			{state.type?.value === "object" && (
-				<SchemaObject isReadOnly={isReadOnlyState} schemaState={state} />
+				<SchemaObject
+					isReadOnly={isReadOnlyState}
+					schemaState={state}
+					initialSchema={
+						props?.initialSchema?.items
+							? (props?.initialSchema?.items as JSONSchema7)
+							: undefined
+					}
+				/>
 			)}
 			{state.type?.value === "array" && (
-				<SchemaArray isReadOnly={isReadOnlyState} schemaState={state} />
+				<SchemaArray
+					isReadOnly={isReadOnlyState}
+					schemaState={state}
+					initialSchema={
+						props?.initialSchema?.items
+							? (props?.initialSchema?.items as JSONSchema7)
+							: undefined
+					}
+				/>
 			)}
 			<Modal
 				isOpen={localState.isAdvancedOpen.get()}

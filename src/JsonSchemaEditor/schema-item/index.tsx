@@ -8,6 +8,8 @@ import {
 	Tooltip,
 	IconButton,
 	useToast,
+	FormErrorMessage,
+	FormHelperText,
 } from "@chakra-ui/react";
 import { FiSettings } from "react-icons/fi";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -18,6 +20,7 @@ import {
 	JSONSchema7,
 	JSONSchema7Definition,
 	JSONSchema7TypeName,
+	JSONSchema7Array,
 } from "../../JsonSchemaEditor.types";
 import {
 	getDefaultSchema,
@@ -30,6 +33,7 @@ import { renameKeys, deleteKey } from "../utils";
 import { useDebouncedCallback } from "use-debounce";
 import { SchemaObject } from "../schema-object";
 import { SchemaArray } from "../schema-array";
+import { InitialSchemaContext } from "../state/InitialSchemaContext";
 
 export interface SchemaItemProps extends FlexProps {
 	required: string[];
@@ -66,9 +70,11 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 	const isReadOnlyState = useState(isReadOnly);
 
 	const itemState = useState(
-		(parentStateProp.properties as State<{
-			[key: string]: JSONSchema7;
-		}>).nested(nameState.value)
+		(
+			parentStateProp.properties as State<{
+				[key: string]: JSONSchema7;
+			}>
+		).nested(nameState.value)
 	);
 
 	const { length } = parentState.path.filter((name) => name !== "properties");
@@ -81,8 +87,10 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 		: false;
 	const toast = useToast();
 
-	const isEditing = !!props.initialSchema;
-	const requriesRetroactiveVal = isEditing && isRequired;
+	const [requriesRetroactiveVal, setRequiresRetroactiveVal] =
+		React.useState(false);
+
+	const { schema: initialSchema } = React.useContext(InitialSchemaContext);
 
 	// Debounce callback
 	const debounced = useDebouncedCallback(
@@ -152,6 +160,20 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					margin={2}
 					colorScheme="blue"
 					onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+						const isEditing = !!initialSchema;
+						console.log("xyz", props.initialSchema, name);
+						const requiresRetroactiveVal =
+							isEditing &&
+							evt.target.checked &&
+							(!props.initialSchema?.required ||
+								!props.initialSchema.required.includes(name)) &&
+							!(
+								(parentState.properties[name] as JSONSchema7).type ===
+									"object" ||
+								(parentState.properties[name] as JSONSchema7).type === "array"
+							);
+						setRequiresRetroactiveVal(requiresRetroactiveVal);
+
 						if (!evt.target.checked && required.includes(name)) {
 							(parentState.required as State<string[]>)[
 								required.indexOf(name)
@@ -298,11 +320,39 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					</Tooltip>
 				)}
 			</Flex>
+			{requriesRetroactiveVal &&
+				itemState.type?.value !== "array" &&
+				itemState.type?.value !== "object" && (
+					<div>Please enter a default value.</div>
+				)}
 			{itemState.type?.value === "object" && (
-				<SchemaObject isReadOnly={isReadOnlyState} schemaState={itemState} />
+				<SchemaObject
+					isReadOnly={isReadOnlyState}
+					schemaState={itemState}
+					initialSchema={
+						props?.initialSchema?.properties &&
+						typeof props.initialSchema.properties === "object"
+							? (props.initialSchema.properties[nameState.value] as JSONSchema7)
+							: undefined
+					}
+				/>
 			)}
 			{itemState.type?.value === "array" && (
-				<SchemaArray isReadOnly={isReadOnlyState} schemaState={itemState} />
+				<SchemaArray
+					isReadOnly={isReadOnlyState}
+					schemaState={itemState}
+					initialSchema={
+						props?.initialSchema?.properties &&
+						typeof props.initialSchema.properties === "object"
+							? (props.initialSchema.properties[nameState.value] as JSONSchema7)
+							: undefined
+					}
+					// initialSchema={
+					// 	props?.initialSchema?.items
+					// 		? (props.initialSchema.items as JSONSchema7)
+					// 		: undefined
+					// }
+				/>
 			)}
 		</div>
 	);
