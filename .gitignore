@@ -52,7 +52,7 @@ typings/
 .DS_Store
 
 # compiled server output
-dist
+# dist
 
 # storybook
 storybook-static
