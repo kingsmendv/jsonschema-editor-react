@@ -54,9 +54,6 @@ export const DropPlus: React.FunctionComponent<DropPlusProps> = (
 				<IconButton
 					isRound
 					size="sm"
-					mt={2}
-					mb={2}
-					mr={2}
 					variant="link"
 					colorScheme="green"
 					fontSize="16px"

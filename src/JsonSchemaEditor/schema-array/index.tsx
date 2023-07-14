@@ -44,7 +44,7 @@ export const SchemaArray: React.FunctionComponent<SchemaArrayProps> = (
 
 	const { length } = state.path.filter((name) => name !== "properties");
 	const tagPaddingLeftStyle = {
-		paddingLeft: `${20 * (length + 1)}px`,
+		paddingLeft: `${20 * (length - 1)}px`,
 	};
 
 	const onCloseAdvanced = (): void => {
@@ -68,7 +68,6 @@ export const SchemaArray: React.FunctionComponent<SchemaArrayProps> = (
 				wrap="nowrap"
 				className="array-item"
 				mt={2}
-				mr={5}
 				style={tagPaddingLeftStyle}
 			>
 				<Input
@@ -126,60 +125,56 @@ export const SchemaArray: React.FunctionComponent<SchemaArrayProps> = (
 						state.description.set(evt.target.value);
 					}}
 				/>
-				<Tooltip
-					hasArrow
-					aria-label="Advanced Settings"
-					label="Advanced Settings"
-					placement="top"
-				>
-					<IconButton
-						isRound
-						isDisabled={isReadOnlyState.value}
-						size="sm"
-						mt={2}
-						mb={2}
-						ml={1}
-						variant="link"
-						colorScheme="blue"
-						fontSize="16px"
-						icon={<FiSettings />}
-						aria-label="Advanced Settings"
-						onClick={() => {
-							showadvanced();
-						}}
-					/>
-				</Tooltip>
-
-				{state.type.value === "object" && (
+				<Flex flex="1 0 96px" justifyContent="space-between">
 					<Tooltip
 						hasArrow
-						aria-label="Add Child Node"
-						label="Add Child Node"
+						aria-label="Advanced Settings"
+						label="Advanced Settings"
 						placement="top"
 					>
 						<IconButton
 							isRound
 							isDisabled={isReadOnlyState.value}
 							size="sm"
-							mt={2}
-							mb={2}
-							mr={2}
 							variant="link"
-							colorScheme="green"
+							colorScheme="blue"
 							fontSize="16px"
-							icon={<IoIosAddCircleOutline />}
-							aria-label="Add Child Node"
+							icon={<FiSettings />}
+							aria-label="Advanced Settings"
 							onClick={() => {
-								const fieldName = `field_${random()}`;
-								(
-									state.properties as State<{
-										[key: string]: JSONSchema7;
-									}>
-								)[fieldName].set(getDefaultSchema(DataType.string));
+								showadvanced();
 							}}
 						/>
 					</Tooltip>
-				)}
+
+					{state.type.value === "object" && (
+						<Tooltip
+							hasArrow
+							aria-label="Add Child Node"
+							label="Add Child Node"
+							placement="top"
+						>
+							<IconButton
+								isRound
+								isDisabled={isReadOnlyState.value}
+								size="sm"
+								variant="link"
+								colorScheme="green"
+								fontSize="16px"
+								icon={<IoIosAddCircleOutline />}
+								aria-label="Add Child Node"
+								onClick={() => {
+									const fieldName = `field_${random()}`;
+									(
+										state.properties as State<{
+											[key: string]: JSONSchema7;
+										}>
+									)[fieldName].set(getDefaultSchema(DataType.string));
+								}}
+							/>
+						</Tooltip>
+					)}
+				</Flex>
 			</Flex>
 			{state.type?.value === "object" && (
 				<SchemaObject

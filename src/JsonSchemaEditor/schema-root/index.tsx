@@ -32,7 +32,6 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 				wrap="nowrap"
 				// size="sm"
 				mt={2}
-				mr={5}
 			>
 				<Input
 					isDisabled
@@ -101,7 +100,7 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 				/>
 
 				{state.value?.type === "object" && (
-					<>
+					<Flex flex="1 0 96px" justifyContent="flex-end">
 						<Tooltip
 							hasArrow
 							aria-label="Add Child Node"
@@ -112,9 +111,6 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 								isRound
 								isDisabled={isReadOnlyState.value}
 								size="sm"
-								mt={2}
-								mb={2}
-								mr={2}
 								variant="link"
 								colorScheme="green"
 								fontSize="16px"
@@ -130,7 +126,7 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 								}}
 							/>
 						</Tooltip>
-					</>
+					</Flex>
 				)}
 			</Flex>
 		</>

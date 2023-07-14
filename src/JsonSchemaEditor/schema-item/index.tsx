@@ -8,8 +8,6 @@ import {
 	Tooltip,
 	IconButton,
 	useToast,
-	FormErrorMessage,
-	FormHelperText,
 } from "@chakra-ui/react";
 import { FiSettings } from "react-icons/fi";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -79,7 +77,7 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 
 	const { length } = parentState.path.filter((name) => name !== "properties");
 	const tagPaddingLeftStyle = {
-		paddingLeft: `${20 * (length + 1)}px`,
+		paddingLeft: `${20 * length}px`,
 	};
 
 	const isRequired = required
@@ -134,8 +132,18 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 		return <></>;
 	}
 
+	const wrapperStyle: React.HTMLProps<"div">["style"] =
+		itemState.type?.value === "object" || itemState.type?.value === "array"
+			? {
+					background: "#cccccc1a",
+					marginBottom: "20px",
+					// marginLeft: tagPaddingLeftStyle.paddingLeft,
+					// borderLeft: "2px solid #cccccc",
+			  }
+			: {};
+
 	return (
-		<div>
+		<div style={wrapperStyle}>
 			<Flex
 				alignContent="space-evenly"
 				direction="row"
@@ -231,101 +239,110 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					}}
 				/>
 
-				{itemState.type.value !== "object" && itemState.type.value !== "array" && (
+				{/* Buttons controls */}
+				<Flex flex="1 0 96px" justifyContent="flex-end">
+					{itemState.type.value !== "object" &&
+						itemState.type.value !== "array" && (
+							<Tooltip
+								hasArrow
+								aria-label="Advanced Settings"
+								label="Advanced Settings"
+								placement="top"
+							>
+								<IconButton
+									isRound
+									isDisabled={isReadOnlyState.value}
+									size="sm"
+									variant="link"
+									colorScheme="blue"
+									fontSize="16px"
+									icon={<FiSettings />}
+									aria-label="Advanced Settings"
+									onClick={() => {
+										showadvanced(name);
+									}}
+								/>
+							</Tooltip>
+						)}
+
 					<Tooltip
 						hasArrow
-						aria-label="Advanced Settings"
-						label="Advanced Settings"
-						placement="top"
-					>
-						<IconButton
-							isRound
-							isDisabled={isReadOnlyState.value}
-							size="sm"
-							mt={2}
-							mb={2}
-							ml={1}
-							variant="link"
-							colorScheme="blue"
-							fontSize="16px"
-							icon={<FiSettings />}
-							aria-label="Advanced Settings"
-							onClick={() => {
-								showadvanced(name);
-							}}
-						/>
-					</Tooltip>
-				)}
-
-				<Tooltip
-					hasArrow
-					aria-label="Remove Node"
-					label="Remove Node"
-					placement="top"
-				>
-					<IconButton
-						isRound
-						isDisabled={isReadOnlyState.value}
-						size="sm"
-						mt={2}
-						mb={2}
-						ml={1}
-						variant="link"
-						colorScheme="red"
-						fontSize="16px"
-						icon={<AiOutlineDelete />}
 						aria-label="Remove Node"
-						onClick={() => {
-							const updatedState = deleteKey(
-								nameState.value,
-								JSON.parse(JSON.stringify(parentState.properties.value))
-							);
-							parentState.properties.set(updatedState);
-						}}
-					/>
-				</Tooltip>
-
-				{itemState.type?.value === "object" ? (
-					<DropPlus
-						isDisabled={isReadOnlyState.value}
-						parentStateProp={parentState}
-						itemStateProp={itemStateProp}
-					/>
-				) : (
-					<Tooltip
-						hasArrow
-						aria-label="Add Sibling Node"
-						label="Add Sibling Node"
+						label="Remove Node"
 						placement="top"
 					>
 						<IconButton
 							isRound
 							isDisabled={isReadOnlyState.value}
 							size="sm"
-							mt={2}
-							mb={2}
-							mr={2}
 							variant="link"
-							colorScheme="green"
+							colorScheme="red"
 							fontSize="16px"
-							icon={<IoIosAddCircleOutline />}
-							aria-label="Add Sibling Node"
+							icon={<AiOutlineDelete />}
+							aria-label="Remove Node"
 							onClick={() => {
-								if (propertiesOrNull) {
-									const fieldName = `field_${random()}`;
-									propertiesOrNull
-										?.nested(fieldName)
-										.set(getDefaultSchema(DataType.string) as JSONSchema7);
-								}
+								const updatedState = deleteKey(
+									nameState.value,
+									JSON.parse(JSON.stringify(parentState.properties.value))
+								);
+								parentState.properties.set(updatedState);
 							}}
 						/>
 					</Tooltip>
-				)}
+
+					{itemState.type?.value === "object" ? (
+						<DropPlus
+							isDisabled={isReadOnlyState.value}
+							parentStateProp={parentState}
+							itemStateProp={itemStateProp}
+						/>
+					) : (
+						<Tooltip
+							hasArrow
+							aria-label="Add Sibling Node"
+							label="Add Sibling Node"
+							placement="top"
+						>
+							<IconButton
+								isRound
+								isDisabled={isReadOnlyState.value}
+								size="sm"
+								variant="link"
+								colorScheme="green"
+								fontSize="16px"
+								icon={<IoIosAddCircleOutline />}
+								aria-label="Add Sibling Node"
+								onClick={() => {
+									if (propertiesOrNull) {
+										const fieldName = `field_${random()}`;
+										propertiesOrNull
+											?.nested(fieldName)
+											.set(getDefaultSchema(DataType.string) as JSONSchema7);
+									}
+								}}
+							/>
+						</Tooltip>
+					)}
+				</Flex>
 			</Flex>
 			{requriesRetroactiveVal &&
+				(itemState.default.value === undefined ||
+					itemState.default.value === "") &&
 				itemState.type?.value !== "array" &&
 				itemState.type?.value !== "object" && (
-					<div>Please enter a default value.</div>
+					<div
+						style={{
+							color: "white",
+							display: "inline-block",
+							background: "crimson",
+							padding: "2px 8px",
+							fontSize: "0.9rem",
+							borderRadius: "3px",
+							marginLeft: `calc(${tagPaddingLeftStyle.paddingLeft} + 8px)`,
+						}}
+					>
+						Please enter a default value for the new required field!
+					</div>
 				)}
 			{itemState.type?.value === "object" && (
 				<SchemaObject
