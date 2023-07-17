@@ -68,7 +68,6 @@ function getRequiredAndDefaultsMap(params: {
 	return map;
 }
 
-type RequiredAndDefaults = ReturnType<typeof getRequiredAndDefaultsMap>;
 type isEditedSchemaValidProps = {
 	oldSchema: JSONSchema7;
 	editedSchema: JSONSchema7;

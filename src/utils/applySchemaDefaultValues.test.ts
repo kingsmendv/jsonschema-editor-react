@@ -1,4 +1,4 @@
-import { applySchemaDefaultValues } from "./applySchemaDefaultVals";
+import { applySchemaDefaultValues } from "./applySchemaDefaultValues";
 import { JSONSchema7 } from "../JsonSchemaEditor.types";
 
 function makeJSON(value: any) {
