@@ -1,11 +1,7 @@
 import * as React from "react";
 import { useState } from "@hookstate/core";
 import { useSchemaState, defaultSchema } from "./state";
-import {
-	SchemaEditorProps,
-	JSONSchema7Definition,
-	JSONSchema7,
-} from "../JsonSchemaEditor.types";
+import { SchemaEditorProps, JSONSchema7 } from "../JsonSchemaEditor.types";
 import { Flex, ChakraProvider, theme } from "@chakra-ui/react";
 
 import { SchemaRoot } from "./schema-root";
@@ -102,16 +98,13 @@ function traverse(schema: JSONSchema7) {
 	if (schema.type === "object" && schema.properties) {
 		const keys = Object.keys(schema.properties);
 		keys.forEach((key) => {
-			// console.log(schema.properties![key]);
 			const property = schema.properties![key] as JSONSchema7;
 			// Traverse through any object and array
 			if (property.type === "object" || property.type === "array") {
 				traverse(property);
 			}
 		});
-		console.log(schema.required);
 	} else if (schema.type === "array" && schema.items) {
-		console.log(schema.items);
 		const items = schema.items as JSONSchema7;
 		if (items.type === "object" || items.type === "array") {
 			traverse(items);
