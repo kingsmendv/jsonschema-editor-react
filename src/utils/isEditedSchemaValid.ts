@@ -104,7 +104,6 @@ function isEditedSchemaValid({
 				const requiredProp = newRequired[j];
 
 				if (!editedDefaults || editedDefaults[requiredProp] === undefined) {
-					console.log(propPath, requiredProp, editedDefaults?.[requiredProp]);
 					isValid = false;
 					break;
 				}

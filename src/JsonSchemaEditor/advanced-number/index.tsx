@@ -1,8 +1,7 @@
 import * as React from "react";
 import {
-	Flex,
+	Box,
 	FormLabel,
-	Stack,
 	NumberInput,
 	NumberInputField,
 	NumberInputStepper,
@@ -10,6 +9,7 @@ import {
 	NumberDecrementStepper,
 	Checkbox,
 	Textarea,
+	DividerProps,
 } from "@chakra-ui/react";
 
 import {
@@ -44,103 +44,62 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 	const defaultMinVal = (itemState.minimum.value || "") as string;
 	const defaultMaxVal = (itemState.maximum.value || "") as string;
 
+	const layoutStyle: DividerProps["style"] = {
+		display: "grid",
+		gridTemplateColumns: "auto 1fr auto 1fr",
+		gap: "15px 20px",
+		width: "100%",
+		alignItems: "center",
+	};
+
 	return (
-		<Flex direction="column" wrap="nowrap">
-			{/* {props.isRetroactiveValueRequired && (
-				<Stack
-					isInline
-					alignItems="center"
-					justifyContent="center"
-					alignContent="center"
-					m={1}
-				>
-					<FormLabel mr={2}>Retroactive Value: </FormLabel>
-					<NumberInput
-						size="sm"
-						id="retroactiveValue"
-						placeholder="Value"
-						onChange={(value: number | string) => {
-							// itemState.default.set(evt.target.value);
-						}}
-					>
-						<NumberInputField value={defaultVal} />
-						<NumberInputStepper>
-							<NumberIncrementStepper />
-							<NumberDecrementStepper />
-						</NumberInputStepper>
-					</NumberInput>
-				</Stack>
-			)} */}
+		<div style={layoutStyle}>
+			<FormLabel m="0">Default</FormLabel>
 
-			<Stack
-				isInline
-				alignItems="center"
-				justifyContent="center"
-				alignContent="center"
-				m={1}
+			<NumberInput
+				defaultValue={defaultVal}
+				placeholder="Default value"
+				onChange={(value: number | string) => {
+					itemState.default.set(Number(value));
+				}}
+				gridColumn="2/5"
 			>
-				<FormLabel mr={2}>Default: </FormLabel>
+				<NumberInputField value={defaultVal} />
+				<NumberInputStepper>
+					<NumberIncrementStepper />
+					<NumberDecrementStepper />
+				</NumberInputStepper>
+			</NumberInput>
 
-				<NumberInput
-					size="sm"
-					defaultValue={defaultVal}
-					placeholder="Default value"
-					onChange={(value: number | string) => {
-						itemState.default.set(Number(value));
-					}}
-				>
-					<NumberInputField value={defaultVal} />
-					<NumberInputStepper>
-						<NumberIncrementStepper />
-						<NumberDecrementStepper />
-					</NumberInputStepper>
-				</NumberInput>
-			</Stack>
+			<FormLabel m="0">Min Value</FormLabel>
+			<NumberInput
+				defaultValue={defaultMinVal}
+				onChange={(value: number | string) => {
+					itemState.minimum.set(Number(value));
+				}}
+			>
+				<NumberInputField value={defaultMinVal} />
+				<NumberInputStepper>
+					<NumberIncrementStepper />
+					<NumberDecrementStepper />
+				</NumberInputStepper>
+			</NumberInput>
+			<FormLabel m="0">Max Value</FormLabel>
+			<NumberInput
+				defaultValue={defaultMaxVal}
+				onChange={(value: number | string) => {
+					itemState.maximum.set(Number(value));
+				}}
+			>
+				<NumberInputField value={defaultMaxVal} />
+				<NumberInputStepper>
+					<NumberIncrementStepper />
+					<NumberDecrementStepper />
+				</NumberInputStepper>
+			</NumberInput>
 
-			<Stack
-				isInline
-				alignItems="center"
-				justifyContent="center"
-				alignContent="center"
-				m={1}
-			>
-				<FormLabel mr={2}>Min Value: </FormLabel>
-				<NumberInput
-					size="sm"
-					defaultValue={defaultMinVal}
-					onChange={(value: number | string) => {
-						itemState.minimum.set(Number(value));
-					}}
-				>
-					<NumberInputField value={defaultMinVal} />
-					<NumberInputStepper>
-						<NumberIncrementStepper />
-						<NumberDecrementStepper />
-					</NumberInputStepper>
-				</NumberInput>
-				<FormLabel mr={2}>Max Value: </FormLabel>
-				<NumberInput
-					size="sm"
-					defaultValue={defaultMaxVal}
-					onChange={(value: number | string) => {
-						itemState.maximum.set(Number(value));
-					}}
-				>
-					<NumberInputField value={defaultMaxVal} />
-					<NumberInputStepper>
-						<NumberIncrementStepper />
-						<NumberDecrementStepper />
-					</NumberInputStepper>
-				</NumberInput>
-			</Stack>
-			<Stack
-				isInline
-				alignItems="center"
-				justifyContent="center"
-				alignContent="center"
-				m={1}
-			>
-				<FormLabel mr={2}>Enum: </FormLabel>
+			<FormLabel m="0">Enum</FormLabel>
+			<Box gridColumn="2/5" display="flex" gap="20px">
 				<Checkbox
 					isChecked={isEnumChecked}
 					onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,7 +127,7 @@ export const AdvancedNumber: React.FunctionComponent<AdvancedItemStateProps> = (
 						}
 					}}
 				/>
-			</Stack>
-		</Flex>
+			</Box>
+		</div>
 	);
 };

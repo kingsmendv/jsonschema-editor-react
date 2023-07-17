@@ -18,7 +18,6 @@ import {
 	JSONSchema7,
 	JSONSchema7Definition,
 	JSONSchema7TypeName,
-	JSONSchema7Array,
 } from "../../JsonSchemaEditor.types";
 import {
 	getDefaultSchema,
@@ -169,7 +168,7 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					colorScheme="blue"
 					onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
 						const isEditing = !!initialSchema;
-						console.log("xyz", props.initialSchema, name);
+
 						const requiresRetroactiveVal =
 							isEditing &&
 							evt.target.checked &&
@@ -285,6 +284,16 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 									nameState.value,
 									JSON.parse(JSON.stringify(parentState.properties.value))
 								);
+
+								// If the field was required, be sure to remove it.
+								const wasRequired = required.includes(nameState.value);
+								if (wasRequired) {
+									const updatedRequired = required.filter(
+										(field) => field !== nameState.value
+									);
+									parentStateOrNull.required.set(updatedRequired);
+								}
+
 								parentState.properties.set(updatedState);
 							}}
 						/>
@@ -366,11 +375,6 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 							? (props.initialSchema.properties[nameState.value] as JSONSchema7)
 							: undefined
 					}
-					// initialSchema={
-					// 	props?.initialSchema?.items
-					// 		? (props.initialSchema.items as JSONSchema7)
-					// 		: undefined
-					// }
 				/>
 			)}
 		</div>

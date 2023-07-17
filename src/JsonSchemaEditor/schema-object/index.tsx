@@ -55,13 +55,6 @@ export const SchemaObject: React.FunctionComponent<SchemaObjectProps> = (
 	if (!propertiesOrNull) {
 		return <></>;
 	} else {
-		const isRetroactiveValueRequired =
-			!!localState.item.value &&
-			schemaState.value.required &&
-			schemaState.value.required.includes(localState.item.value) &&
-			(!props?.initialSchema?.required ||
-				!props.initialSchema.required.includes(localState.item.value));
-
 		return (
 			<div className="object-style">
 				{propertiesOrNull?.keys?.map((name) => {
@@ -76,12 +69,6 @@ export const SchemaObject: React.FunctionComponent<SchemaObjectProps> = (
 							showadvanced={showadvanced}
 							required={schema.required.value as string[]}
 							isReadOnly={isReadOnlyState}
-							// initialSchema={
-							// 	props.initialSchema?.properties &&
-							// 	props.initialSchema?.properties[name]
-							// 		? (props.initialSchema?.properties[name] as JSONSchema7)
-							// 		: undefined
-							// }
 							initialSchema={props.initialSchema}
 						/>
 					);
@@ -105,7 +92,6 @@ export const SchemaObject: React.FunctionComponent<SchemaObjectProps> = (
 										localState.item.value as string
 									) as State<JSONSchema7>
 								}
-								isRetroactiveValueRequired={isRetroactiveValueRequired}
 							/>
 						</ModalBody>
 

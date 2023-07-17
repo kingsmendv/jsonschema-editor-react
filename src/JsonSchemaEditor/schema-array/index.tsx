@@ -126,26 +126,30 @@ export const SchemaArray: React.FunctionComponent<SchemaArrayProps> = (
 					}}
 				/>
 				<Flex flex="1 0 96px" justifyContent="space-between">
-					<Tooltip
-						hasArrow
-						aria-label="Advanced Settings"
-						label="Advanced Settings"
-						placement="top"
-					>
-						<IconButton
-							isRound
-							isDisabled={isReadOnlyState.value}
-							size="sm"
-							variant="link"
-							colorScheme="blue"
-							fontSize="16px"
-							icon={<FiSettings />}
+					{state.type.value !== "object" ? (
+						<Tooltip
+							hasArrow
 							aria-label="Advanced Settings"
-							onClick={() => {
-								showadvanced();
-							}}
-						/>
-					</Tooltip>
+							label="Advanced Settings"
+							placement="top"
+						>
+							<IconButton
+								isRound
+								isDisabled={isReadOnlyState.value}
+								size="sm"
+								variant="link"
+								colorScheme="blue"
+								fontSize="16px"
+								icon={<FiSettings />}
+								aria-label="Advanced Settings"
+								onClick={() => {
+									showadvanced();
+								}}
+							/>
+						</Tooltip>
+					) : (
+						<div />
+					)}
 
 					{state.type.value === "object" && (
 						<Tooltip

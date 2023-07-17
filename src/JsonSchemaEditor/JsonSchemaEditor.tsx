@@ -23,10 +23,6 @@ export const JsonSchemaEditor = (props: SchemaEditorProps) => {
 
 	const jsonSchemaState = useState(schemaState.jsonSchema);
 
-	if (data) {
-		traverse(data);
-	}
-
 	return (
 		<ChakraProvider theme={theme}>
 			<InitialSchemaContext.Provider value={{ schema: data }}>
@@ -93,21 +89,3 @@ export const JsonSchemaEditor = (props: SchemaEditorProps) => {
 		</ChakraProvider>
 	);
 };
-
-function traverse(schema: JSONSchema7) {
-	if (schema.type === "object" && schema.properties) {
-		const keys = Object.keys(schema.properties);
-		keys.forEach((key) => {
-			const property = schema.properties![key] as JSONSchema7;
-			// Traverse through any object and array
-			if (property.type === "object" || property.type === "array") {
-				traverse(property);
-			}
-		});
-	} else if (schema.type === "array" && schema.items) {
-		const items = schema.items as JSONSchema7;
-		if (items.type === "object" || items.type === "array") {
-			traverse(items);
-		}
-	}
-}
