@@ -162,6 +162,7 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					}}
 				/>
 				<Checkbox
+					title="Is required?"
 					isDisabled={isReadOnlyState.value}
 					isChecked={isRequired}
 					margin={2}

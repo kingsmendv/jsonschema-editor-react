@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState } from "@hookstate/core";
 import { useSchemaState, defaultSchema } from "./state";
-import { SchemaEditorProps, JSONSchema7 } from "../JsonSchemaEditor.types";
-import { Flex, ChakraProvider, theme } from "@chakra-ui/react";
+import { SchemaEditorProps } from "../JsonSchemaEditor.types";
+import { Box, Flex, ChakraProvider, theme } from "@chakra-ui/react";
 
 import { SchemaRoot } from "./schema-root";
 import { Whoops } from "./whoops";
@@ -28,6 +28,23 @@ export const JsonSchemaEditor = (props: SchemaEditorProps) => {
 			<InitialSchemaContext.Provider value={{ schema: data }}>
 				{schemaState.isValidSchema ? (
 					<Flex m={2} direction="column">
+						<Flex pr="96px" fontSize="12px" opacity={0.5} fontWeight={500}>
+							<Box flexGrow={1} flexBasis="208" px="8px">
+								Property
+							</Box>
+							<Box flexGrow={0} flexBasis="32px" textAlign="center">
+								Req.
+							</Box>
+							<Box flexGrow={1} flexBasis="188" px="8px">
+								Data Type
+							</Box>
+							<Box flexGrow={1} flexBasis="208" px="8px">
+								Title
+							</Box>
+							<Box flexGrow={1} flexBasis="208" px="8px">
+								Description
+							</Box>
+						</Flex>
 						<SchemaRoot
 							onSchemaChange={onSchemaChange}
 							schemaState={schemaState.jsonSchema}

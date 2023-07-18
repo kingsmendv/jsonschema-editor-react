@@ -31,7 +31,6 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 				direction="row"
 				wrap="nowrap"
 				// size="sm"
-				mt={2}
 			>
 				<Input
 					isDisabled
@@ -40,19 +39,14 @@ export const SchemaRoot: React.FunctionComponent<SchemaArrayProps> = (
 					variant="outline"
 					size="sm"
 				/>
-				{/* <Tooltip
-					hasArrow
-					aria-label="All Required"
-					label="All Required"
-					placement="top"
-				>
-					<Checkbox
-						isDisabled={isReadOnlyState.value}
-						margin={2}
-						width={20}
-						colorScheme="blue"
-					/>
-				</Tooltip> */}
+
+				<Checkbox
+					// isDisabled={isReadOnlyState.value}
+					isDisabled={true}
+					margin={2}
+					width={20}
+					colorScheme="blue"
+				/>
 
 				<Select
 					variant="outline"
