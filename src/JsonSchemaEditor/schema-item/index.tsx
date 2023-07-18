@@ -84,8 +84,7 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 		: false;
 	const toast = useToast();
 
-	const [requriesRetroactiveVal, setRequiresRetroactiveVal] =
-		React.useState(false);
+	const [requiresDefaultValue, setRequiresDefaultValue] = React.useState(false);
 
 	const { schema: initialSchema } = React.useContext(InitialSchemaContext);
 
@@ -169,20 +168,21 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					colorScheme="blue"
 					onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
 						const isEditing = !!initialSchema;
+						const parentStateProps = parentState.properties.get() || {};
+						const dataType = (parentStateProps[name] as JSONSchema7).type;
 
-						const requiresRetroactiveVal =
+						const requiresDefaultValue =
 							isEditing &&
+							// Is checked
 							evt.target.checked &&
+							// Is not required in the original schema
 							(!props.initialSchema?.required ||
 								!props.initialSchema.required.includes(name)) &&
-							!(
-								parentState?.properties &&
-								((parentState.properties.get()![name] as JSONSchema7).type ===
-									"object" ||
-									(parentState.properties.get()![name] as JSONSchema7).type ===
-										"array")
-							);
-						setRequiresRetroactiveVal(requiresRetroactiveVal);
+							// Is not an object or array type
+							dataType !== "object" &&
+							dataType !== "array";
+
+						setRequiresDefaultValue(requiresDefaultValue);
 
 						if (!evt.target.checked && required.includes(name)) {
 							(parentState.required as State<string[]>)[
@@ -335,7 +335,7 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					)}
 				</Flex>
 			</Flex>
-			{requriesRetroactiveVal &&
+			{requiresDefaultValue &&
 				(itemState.default.value === undefined ||
 					itemState.default.value === "") &&
 				itemState.type?.value !== "array" &&

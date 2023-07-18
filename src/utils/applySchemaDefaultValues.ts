@@ -53,13 +53,6 @@ function applySchemaDefaultValues(params: {
 			break;
 
 		case "number":
-			if (schema.default) {
-				if (typeof newJson !== "number") {
-					newJson = schema.default;
-				}
-			}
-			break;
-
 		case "integer":
 			if (schema.default) {
 				if (typeof newJson !== "number") {
