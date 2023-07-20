@@ -29,3 +29,12 @@ WithData.args = {
 		printIt(r);
 	},
 };
+
+export const WithDefaultsOnNewRequired = Template.bind({});
+WithDefaultsOnNewRequired.args = {
+	data: readOnlyData,
+	onSchemaChange: (r) => {
+		printIt(r);
+	},
+	defaultsOnNewRequired: true,
+};

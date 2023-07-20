@@ -6,6 +6,7 @@ export interface SchemaEditorProps {
     data?: JSONSchema7 | undefined;
     onSchemaChange: (results: string) => void;
     readOnly?: boolean;
+    defaultsOnNewRequired?: boolean;
 }
 export declare type Schema2 = {
     jsonSchema: JSONSchema7;

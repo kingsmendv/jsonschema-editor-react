@@ -1,6 +1,11 @@
 import { createContext } from "react";
 import { JSONSchema7 } from "../../JsonSchemaEditor.types";
 
-const InitialSchemaContext = createContext<{ schema?: JSONSchema7 }>({});
+type InitialSchemaVal = {
+	schema?: JSONSchema7;
+	defaultsOnNewRequired?: boolean;
+};
+
+const InitialSchemaContext = createContext<InitialSchemaVal>({});
 
 export { InitialSchemaContext };

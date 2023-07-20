@@ -1,6 +1,8 @@
 /// <reference types="react" />
 import { JSONSchema7 } from "../../JsonSchemaEditor.types";
-declare const InitialSchemaContext: import("react").Context<{
-    schema?: JSONSchema7 | undefined;
-}>;
+declare type InitialSchemaVal = {
+    schema?: JSONSchema7;
+    defaultsOnNewRequired?: boolean;
+};
+declare const InitialSchemaContext: import("react").Context<InitialSchemaVal>;
 export { InitialSchemaContext };

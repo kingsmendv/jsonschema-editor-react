@@ -13,7 +13,12 @@ import { InitialSchemaContext } from "./state/InitialSchemaContext";
 export * from "../JsonSchemaEditor.types";
 
 export const JsonSchemaEditor = (props: SchemaEditorProps) => {
-	const { onSchemaChange, readOnly, data } = props;
+	const {
+		onSchemaChange,
+		readOnly,
+		data,
+		defaultsOnNewRequired = false,
+	} = props;
 
 	const schemaState = useSchemaState({
 		jsonSchema: data ?? defaultSchema(),
@@ -25,7 +30,9 @@ export const JsonSchemaEditor = (props: SchemaEditorProps) => {
 
 	return (
 		<ChakraProvider theme={theme}>
-			<InitialSchemaContext.Provider value={{ schema: data }}>
+			<InitialSchemaContext.Provider
+				value={{ defaultsOnNewRequired, schema: data }}
+			>
 				{schemaState.isValidSchema ? (
 					<Flex m={2} direction="column">
 						<Flex pr="96px" fontSize="12px" opacity={0.5} fontWeight={500}>

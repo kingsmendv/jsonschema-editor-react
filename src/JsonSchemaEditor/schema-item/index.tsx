@@ -86,7 +86,8 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 
 	const [requiresDefaultValue, setRequiresDefaultValue] = React.useState(false);
 
-	const { schema: initialSchema } = React.useContext(InitialSchemaContext);
+	const { schema: initialSchema, defaultsOnNewRequired } =
+		React.useContext(InitialSchemaContext);
 
 	// Debounce callback
 	const debounced = useDebouncedCallback(
@@ -167,12 +168,11 @@ export const SchemaItem: React.FunctionComponent<SchemaItemProps> = (
 					margin={2}
 					colorScheme="blue"
 					onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-						const isEditing = !!initialSchema;
 						const parentStateProps = parentState.properties.get() || {};
 						const dataType = (parentStateProps[name] as JSONSchema7).type;
 
 						const requiresDefaultValue =
-							isEditing &&
+							!!defaultsOnNewRequired &&
 							// Is checked
 							evt.target.checked &&
 							// Is not required in the original schema
