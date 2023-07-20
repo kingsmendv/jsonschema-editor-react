@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
-import JsonSchemaEditor from ".";
+import { JsonSchemaEditor } from ".";
 import { SchemaEditorProps } from "./JsonSchemaEditor.types";
 
 const printIt = (schema: string) => {

@@ -2,7 +2,7 @@ import React from "react";
 
 import { Story, Meta } from "@storybook/react";
 
-import JsonSchemaEditor from "..";
+import { JsonSchemaEditor } from "..";
 import { SchemaEditorProps } from "../JsonSchemaEditor.types";
 import { readOnlyData, printIt } from "./helper";
 
